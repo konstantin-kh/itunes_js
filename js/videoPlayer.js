@@ -8,6 +8,19 @@ export const videoPlayerInit = () => {
   const videoProgress = document.querySelector('.video-progress');
   const videoTimeTotal = document.querySelector('.video-time__total');
   const videoVolume = document.querySelector('.video-volume');
+  const videoFullScreen = document.querySelector('.video-fullscreen');
+
+  videoFullScreen.addEventListener('click', () => {
+    videoPlayer.requestFullscreen();
+  });
+
+  videoPlayer.addEventListener('fullscreenchange', () => {
+    if (document.fullscreen) {
+      videoPlayer.controls = true;
+    } else {
+      videoPlayer.controls = false;
+    }
+  });
 
   const playIconToggle = () => {
     if (videoPlayer.paused) {
@@ -60,9 +73,12 @@ export const videoPlayerInit = () => {
   });
 
   videoVolume.addEventListener('input', () => {
-    console.log(111)
-    console.log(videoPlayer.volume);
     const valueVolume = videoVolume.value;
     videoPlayer.volume = valueVolume / 100;
   });
+
+  videoPlayerInit.stop = () => {
+    videoPlayer.pause();
+    playIconToggle();
+  };
 }

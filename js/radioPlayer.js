@@ -5,8 +5,14 @@ export const radioPlayerInit = () => {
   const radioHeader = document.querySelector('.radio-header__big');
   const radioItem = document.querySelectorAll('.radio-item');
   const radioStop = document.querySelector('.radio-stop');
-  
+  const radioVolume = document.querySelector('.radio-volume');
+  const radioMute = document.querySelector('.radio-mute');
+  const radioVolumeDown = document.querySelector('.radio-volume-down');
+  const radioVolumeUp = document.querySelector('.radio-volume-up');
+
   const audio = new Audio();
+  let tempVolume = audio.volume;
+
   const changeAudioIcon = () => {
     if (audio.paused) {
       radio.classList.remove('play');
@@ -51,4 +57,36 @@ export const radioPlayerInit = () => {
     }
     changeAudioIcon();
   });
+
+  radioVolume.addEventListener('input', () => {
+    audio.volume = radioVolume.value / 100;
+    audio.muted = false;
+  });
+
+  radioMute.addEventListener('click', () => {
+    audio.muted = !audio.muted;
+    radioVolume.value = audio.volume;
+  });
+
+  radioVolumeDown.addEventListener('click', () => {
+    if (audio.volume) {
+      audio.volume = 0;
+      radioVolume.value = audio.volume;
+    }
+  });
+
+  radioVolumeUp.addEventListener('click', () => {
+    if (audio.volume < 1 || audio.muted) {
+      audio.volume = 1;
+      radioVolume.value = 100;
+      audio.muted = false;
+    }
+  });
+
+  radioVolume.value = audio.volume * 100;
+
+  radioPlayerInit.stop = () => {
+    audio.pause();
+    changeAudioIcon();
+  };
 }
