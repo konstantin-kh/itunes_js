@@ -11,7 +11,7 @@ export const radioPlayerInit = () => {
   const radioVolumeUp = document.querySelector('.radio-volume-up');
 
   const audio = new Audio();
-  let tempVolume = audio.volume;
+  audio.type = 'audio/aac';
 
   const changeAudioIcon = () => {
     if (audio.paused) {
@@ -30,7 +30,6 @@ export const radioPlayerInit = () => {
     elem.classList.add('select');
   };
 
-  audio.type = 'audio/aac';
   radioStop.disabled = true;
 
   radioNavigation.addEventListener('change', event => {
@@ -39,15 +38,30 @@ export const radioPlayerInit = () => {
     const title = parent.querySelector('.radio-name').textContent;
     const img = parent.querySelector('.radio-img').src;
 
-    audio.src = target.dataset.radioStation;
-    audio.play();
+    fetchAudioPlay(target.dataset.radioStation);
+    // audio.play();
     radioCoverImg.src = img;
     radioHeader.textContent = title;
-    radioStop.disabled = false;
     
     changeAudioIcon();
     selectRadio(parent);
   });
+
+  const fetchAudioPlay = src => {
+    fetch(src)
+      .then(response => {
+        console.log(response);
+        audio.src = response.url;
+        return audio.play();
+      })
+      .then(_ => {
+        radioStop.disabled = false;
+      })
+      .catch(e => {
+        console.log(e);
+        // Video playback failed ;(
+      });
+  };
 
   radioStop.addEventListener('click', () => {
     if (audio.paused) {
