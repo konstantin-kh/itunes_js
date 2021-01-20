@@ -6,7 +6,6 @@ const playerBtn = document.querySelectorAll('.player-btn');
 const playerBlock = document.querySelectorAll('.player-block');
 const mainTitle = document.querySelector('.temp');
 
-// the same as return stop() from radioPlayerInit.stop() or videoPlayerInit.stop() but with function closing 
 const stopMusicPlayer = musicPlayerInit();
 
 const initTab = () => {
