@@ -38,30 +38,15 @@ export const radioPlayerInit = () => {
     const title = parent.querySelector('.radio-name').textContent;
     const img = parent.querySelector('.radio-img').src;
 
-    fetchAudioPlay(target.dataset.radioStation);
-    // audio.play();
+    audio.src = target.dataset.radioStation;
+    audio.play();
     radioCoverImg.src = img;
     radioHeader.textContent = title;
+    radioStop.disabled = false;
     
     changeAudioIcon();
     selectRadio(parent);
   });
-
-  const fetchAudioPlay = src => {
-    fetch(src)
-      .then(response => {
-        console.log(response);
-        audio.src = response.url;
-        return audio.play();
-      })
-      .then(_ => {
-        radioStop.disabled = false;
-      })
-      .catch(e => {
-        console.log(e);
-        // Video playback failed ;(
-      });
-  };
 
   radioStop.addEventListener('click', () => {
     if (audio.paused) {
