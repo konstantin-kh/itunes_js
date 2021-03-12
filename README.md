@@ -1,2 +1,2 @@
 # itunes_js
-iTunes javascript project
+iTunes javascript educational project
